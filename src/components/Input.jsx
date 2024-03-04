@@ -22,6 +22,7 @@ const Input = React.forwardRef(function Input(
 		setShowPassword(!showPassword);
 		onPasswordVisibilityChange && onPasswordVisibilityChange(!showPassword);
 	};
+
 	return (
 		<div className="w-full">
 			{label && (
