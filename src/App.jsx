@@ -1,14 +1,13 @@
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import SignIn from "./components/SignIn";
+import { Outlet } from "react-router-dom";
+import { Header, Footer } from "./components";
 
 export default function App() {
 	return (
 		<>
 			<Header />
-
-			<SignIn />
-
+			<main>
+				<Outlet />
+			</main>
 			<Footer />
 		</>
 	);
