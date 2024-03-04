@@ -5,15 +5,7 @@ import * as yup from "yup";
 import { Button, Input } from "../components";
 
 const validationSchema = yup.object({
-	name: yup
-		.string()
-		.required("Name is required")
-		.min(3, "Name must be atlest 3 characters long"),
-	email: yup
-		.string()
-		.required("Email is required")
-		.email("Invalid email")
-		.matches(/[.]/g, "Invalid email"),
+	email: yup.string().required("Email is required").email("Invalid email"),
 	password: yup
 		.string()
 		.required("Password is required")
@@ -23,7 +15,7 @@ const validationSchema = yup.object({
 		.matches(/[0-9]/, "Password must contain at least one number"),
 });
 
-function SignUp() {
+function LogIn() {
 	const [passwordVisible, setPaswordVisible] = useState(false);
 	const togglePasswordVisibility = () => {
 		setPaswordVisible(!passwordVisible);
@@ -37,7 +29,7 @@ function SignUp() {
 		resolver: yupResolver(validationSchema),
 	});
 
-	const signUpHandler = (data) => {
+	const loginHandler = (data) => {
 		console.log(data);
 	};
 
@@ -45,17 +37,9 @@ function SignUp() {
 		<div id="login-form" className="mx-auto max-w-md p-8">
 			<h2 className="mb-4 text-2xl font-semibold">Welcome Back!</h2>
 			<form
-				onSubmit={handleSubmit(signUpHandler)}
+				onSubmit={handleSubmit(loginHandler)}
 				className="flex flex-col gap-4"
 			>
-				<Input
-					type="text"
-					label="Full Name"
-					placeholder="Full Name"
-					{...register("name", { required: true })}
-					validation={errors.name?.message}
-					className="rounded-md"
-				/>
 				<Input
 					type="email"
 					label="Email"
@@ -74,11 +58,11 @@ function SignUp() {
 					className="rounded-md"
 				/>
 				<Button outline type="submit">
-					SignUp
+					LogIn
 				</Button>
 			</form>
 		</div>
 	);
 }
 
-export default SignUp;
+export default LogIn;

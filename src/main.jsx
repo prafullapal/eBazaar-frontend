@@ -7,7 +7,7 @@ import store from "./store/store.js";
 import "./index.css";
 
 import App from "./App.jsx";
-import SignIn from "./pages/SignIn.jsx";
+import LogIn from "./pages/LogIn.jsx";
 import SignUp from "./pages/SignUp.jsx";
 
 const router = createBrowserRouter([
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: "/login",
-				element: <SignIn />,
+				element: <LogIn />,
 			},
 			{
 				path: "/signup",
