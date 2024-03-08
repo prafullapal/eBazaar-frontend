@@ -1,13 +1,16 @@
 import React, { useId } from "react";
 
-function Select({ name, label, className = "", children, ...props }, ref) {
+const Select = React.forwardRef(function Select(
+	{ name, label, className = "", children, ...props },
+	ref
+) {
 	const id = useId();
 	return (
 		<div>
 			{label && <label htmlFor={id}>{label}</label>}
 			<select
 				name={name}
-				className={`w-full p-2 bg-mantis-100 rounded-md border border-mantis-500`}
+				className={`w-full p-2 bg-mantis-100 rounded-md border border-mantis-500 ${className}`}
 				{...props}
 				ref={ref}
 				id={id}
@@ -19,6 +22,6 @@ function Select({ name, label, className = "", children, ...props }, ref) {
 			</select>
 		</div>
 	);
-}
+});
 
-export default React.forwardRef(Select);
+export default Select;

@@ -1,6 +1,6 @@
 import React, { useId } from "react";
 
-function TextArea(
+const TextArea = React.forwardRef(function TextArea(
 	{ label, className = "", placeholder, rows = 4, ...props },
 	ref
 ) {
@@ -18,6 +18,6 @@ function TextArea(
 			/>
 		</div>
 	);
-}
+});
 
-export default React.forwardRef(TextArea);
+export default TextArea;
