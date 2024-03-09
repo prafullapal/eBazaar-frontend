@@ -7,7 +7,10 @@ function ProductCard({ product }) {
 		<div className="flex flex-col border border-mantis-500 w-fit mx-auto p-2 rounded-md mt-2 bg-mantis-100">
 			<img
 				className="h-36 w-36"
-				src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
+				src={
+					product?.image ||
+					"https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
+				}
 			/>
 			<div className="flex pl-1 justify-between">
 				<div className="flex-col">
