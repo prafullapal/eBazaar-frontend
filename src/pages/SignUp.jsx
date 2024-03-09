@@ -1,11 +1,14 @@
-import { useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Button, Input } from "../components";
+import { Button, Input, Spinner } from "../components";
+import { useAxios } from "../hooks/useAxios";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = yup.object({
-	name: yup
+	fullName: yup
 		.string()
 		.required("Name is required")
 		.min(3, "Name must be atlest 3 characters long"),
@@ -24,6 +27,7 @@ const validationSchema = yup.object({
 });
 
 function SignUp() {
+	const navigate = useNavigate();
 	const [passwordVisible, setPaswordVisible] = useState(false);
 	const togglePasswordVisibility = () => {
 		setPaswordVisible(!passwordVisible);
@@ -37,8 +41,28 @@ function SignUp() {
 		resolver: yupResolver(validationSchema),
 	});
 
-	const signUpHandler = (data) => {
-		console.log(data);
+	const {
+		data,
+		error,
+		isError,
+		isIdle,
+		isPending,
+		isPaused,
+		isSuccess,
+		failureCount,
+		failureReason,
+		mutateAsync: signupApi,
+		status,
+	} = useAxios();
+
+	useEffect(() => {
+		if (isSuccess) {
+			navigate("/login");
+		} else return;
+	}, [isSuccess, navigate, data]);
+
+	const signUpHandler = async (payload) => {
+		await signupApi({ method: "post", url: "/users/register", data: payload });
 	};
 
 	return (
@@ -48,13 +72,19 @@ function SignUp() {
 				onSubmit={handleSubmit(signUpHandler)}
 				className="flex flex-col gap-4"
 			>
+				{isError && (
+					<div className="bg-red-300 p-2 border border-red-500 rounded-md">
+						<p>{error.message || "Something went wrong!"}</p>
+					</div>
+				)}
 				<Input
 					type="text"
 					label="Full Name"
 					placeholder="Full Name"
-					{...register("name", { required: true })}
-					validation={errors.name?.message}
+					{...register("fullName", { required: true })}
+					validation={errors.fullName?.message}
 					className="rounded-md"
+					disabled={isPending}
 				/>
 				<Input
 					type="email"
@@ -63,6 +93,7 @@ function SignUp() {
 					{...register("email", { required: true })}
 					validation={errors.email?.message}
 					className="rounded-md"
+					disabled={isPending}
 				/>
 				<Input
 					type="password"
@@ -72,9 +103,10 @@ function SignUp() {
 					validation={errors.password?.message}
 					onPasswordVisibilityChange={togglePasswordVisibility}
 					className="rounded-md"
+					disabled={isPending}
 				/>
-				<Button outline type="submit">
-					SignUp
+				<Button outline type="submit" disabled={isPending}>
+					{isPending ? <Spinner /> : "SignUp"}
 				</Button>
 			</form>
 		</div>
